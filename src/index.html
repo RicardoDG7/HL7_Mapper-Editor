@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HL7 Mapper & Editor</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons para ícones modernos -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Cabeçalho Principal -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">H</div>
+      <div class="logo-text">
+        <h1>HL7 Studio</h1>
+        <span>Editor & Mapeador de Mensagens</span>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <button class="btn" id="btn-example-adt">
+        <i data-lucide="file-text"></i> Exemplo ADT
+      </button>
+      <button class="btn" id="btn-example-oru">
+        <i data-lucide="activity"></i> Exemplo ORU
+      </button>
+      <button class="btn" id="btn-example-orm">
+        <i data-lucide="clipboard-list"></i> Mensagem Testada (ORM)
+      </button>
+      <button class="btn" id="btn-clear">
+        <i data-lucide="trash-2"></i> Limpar
+      </button>
+      <button class="btn btn-primary" id="btn-download">
+        <i data-lucide="download"></i> Exportar HL7
+      </button>
+    </div>
+  </header>
+
+  <!-- Área de Trabalho de Painel Duplo -->
+  <main>
+    <!-- Painel Esquerdo: Editor Bruto -->
+    <section class="pane" id="left-pane">
+      <div class="pane-header">
+        <div class="pane-title">
+          <i data-lucide="code"></i> Mensagem HL7 Bruta (Raw)
+        </div>
+        <span class="status-item" style="font-size: 11px; color: var(--text-muted);">
+          Edição em Tempo Real
+        </span>
+      </div>
+      <div class="editor-container">
+        <div class="raw-highlight-overlay" id="raw-highlight-overlay"></div>
+        <textarea 
+          id="hl7-raw-input" 
+          class="raw-textarea" 
+          placeholder="Cole sua mensagem HL7 v2 aqui ou clique em um exemplo acima..."
+          spellcheck="false"
+        ></textarea>
+      </div>
+    </section>
+    <div id="resize-handle" class="resize-handle" aria-label="Redimensionar painel"></div>
+
+    <!-- Painel Direito: Estrutura & Mapeamento -->
+    <section class="pane" id="right-pane">
+      <div class="pane-header">
+        <div class="pane-title">
+          <i data-lucide="git-branch"></i> Estrutura & Mapeamento Visual
+        </div>
+        <button class="btn" id="btn-expand-all" style="padding: 4px 8px; font-size: 11px; height: 26px;">
+          Expandir Todos
+        </button>
+      </div>
+      
+      <div class="viewer-container" id="hl7-viewer">
+        <!-- Estado Inicial (Vazio) -->
+        <div class="empty-state" id="empty-state">
+          <i data-lucide="file-input"></i>
+          <h3>Nenhuma mensagem carregada</h3>
+          <p>Digite ou cole uma mensagem HL7 no painel esquerdo, ou carregue um modelo de exemplo no cabeçalho para visualizar o mapeamento.</p>
+        </div>
+        
+        <!-- Conteúdo Renderizado (Injetado via JS) -->
+        <div id="segments-container" style="display: none;"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Barra de Status Inferior -->
+  <footer>
+    <div class="status-item">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">Pronto para uso</span>
+    </div>
+    
+    <div style="display: flex; gap: 24px;">
+      <div class="status-item">
+        <i data-lucide="layers" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+        <span>Segmentos: <strong id="stat-segments">0</strong></span>
+      </div>
+      <div class="status-item">
+        <i data-lucide="info" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+        <span>Versão: <strong id="stat-version">-</strong></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts da Aplicação -->
+  <script src="hl7Parser.js"></script>
+  <script src="renderer.js"></script>
+  <script>
+    // Inicializa os ícones do Lucide
+    lucide.createIcons();
+  </script>
+</body>
+</html>
